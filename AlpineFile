@@ -1,0 +1,14 @@
+# Use a tagged image so we don't 'fall-off' of 'latest'
+FROM alpine:3.17.0
+
+# Update and install packages
+RUN apk update  && \
+    apk upgrade && \
+    apk add bash git
+
+RUN git clone https://github.com/asdf-vm/asdf /opt/asdf --depth 1 && \
+    echo 'asdf=/opt/asdf' > $HOME/.bashrc && \
+    echo '[[ -d $asdf ]] && \
+      source $asdf/asdf.sh && \
+      source $asdf/completions/asdf.bash\
+    ' >> $HOME/.bashrc
